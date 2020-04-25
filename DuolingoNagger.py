@@ -2,6 +2,8 @@ from INagger import INagger
 import duolingo
 import argparse
 import abc
+from win32gui import GetWindowText, GetForegroundWindow
+import ctypes  # An included library with Python install.
 
 class DuolingoNagger(INagger):
     def __init__(self):
@@ -19,8 +21,14 @@ class DuolingoNagger(INagger):
         return parser.parse_args()
 
     def should_nag(self):
+        # check if Duolingo is currently open
+        win_text = GetWindowText(GetForegroundWindow())
+        if 'Duolingo' in win_text:
+            return False
+        
+        # check from daily goal
         daily_xp = self.duolingo_obj.get_daily_xp_progress()
         return daily_xp['xp_goal'] > daily_xp['xp_today']
 
     def nag(self):
-        raise NotImplementedError('users must define nag to use this base class')
+        return ctypes.windll.user32.MessageBoxW(0, 'Do Your Doulingo!', 'STOOPID!', 0)

@@ -4,6 +4,10 @@ import argparse
 import abc
 from win32gui import GetWindowText, GetForegroundWindow
 import ctypes  # An included library with Python install.
+import datetime
+
+def raise_(ex):
+    raise ex
 
 class DuolingoNagger(INagger):
     def __init__(self):
@@ -17,10 +21,14 @@ class DuolingoNagger(INagger):
         parser = argparse.ArgumentParser(description = '')
         parser.add_argument('-u', '--user', dest='user', help='your Doulingo user name', required=True)
         parser.add_argument('-p', '--pass', dest='password', help='your Doulingo password', required=True)
+        parser.add_argument('-t', '--time', dest='time', help='When to start nagging in 4 digits (ex. 2130)', required=True,
+            type=lambda x: x if (x.isdigit() and len(x) == 4) else raise_(Exception('Invalid time type')))
 
         return parser.parse_args()
 
     def should_nag(self):
+        # check time of day
+
         # check if Duolingo is currently open
         win_text = GetWindowText(GetForegroundWindow())
         if 'Duolingo' in win_text:

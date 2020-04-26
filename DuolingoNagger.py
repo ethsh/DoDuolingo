@@ -31,4 +31,4 @@ class DuolingoNagger(INagger):
         return daily_xp['xp_goal'] > daily_xp['xp_today']
 
     def nag(self):
-        return ctypes.windll.user32.MessageBoxW(0, 'Do Your Doulingo!', 'STOOPID!', 0)
+        return ctypes.windll.user32.MessageBoxW(0, 'Do Your Doulingo!', 'STOOPID!', 0x1000)

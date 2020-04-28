@@ -10,9 +10,12 @@ import time
 def raise_(ex):
     raise ex
 
+def ret_duolingo_obj():
+    return DuolingoNagger()
+
 class DuolingoNagger(INagger):
     def __init__(self):
-        args = DuolingoNagger.parse_args()
+        args = DuolingoNagger.parse_args()[0] # parse_known_args returns a tuple, with all the args not recognized by the current argparse
         self.duolingo_user = args.user
         self.duolingo_pass = args.password
 
@@ -29,7 +32,7 @@ class DuolingoNagger(INagger):
         parser.add_argument('-t', '--time', dest='time', help='When to start nagging in 4 digits (ex. 2130)', required=True,
             type=lambda x: x if (x.isdigit() and len(x) == 4) else raise_(Exception('Invalid time type')))
 
-        return parser.parse_args()
+        return parser.parse_known_args()
 
     def should_nag(self):
         # check time of day

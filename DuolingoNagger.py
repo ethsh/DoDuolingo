@@ -5,6 +5,7 @@ import abc
 from win32gui import GetWindowText, GetForegroundWindow
 import ctypes  # An included library with Python install.
 import datetime
+import time
 
 def raise_(ex):
     raise ex
@@ -14,6 +15,10 @@ class DuolingoNagger(INagger):
         args = DuolingoNagger.parse_args()
         self.duolingo_user = args.user
         self.duolingo_pass = args.password
+
+        temp_var_nag_time = time.strptime(args.time, '%H%M')
+        self.start_nagging_time = datetime.time(temp_var_nag_time.tm_hour, temp_var_nag_time.tm_min)
+
         self.duolingo_obj = duolingo.Duolingo(self.duolingo_user, self.duolingo_pass)
 
     @staticmethod
@@ -28,15 +33,17 @@ class DuolingoNagger(INagger):
 
     def should_nag(self):
         # check time of day
+        if datetime.datetime.now().time() < self.start_nagging_time:
+            return False
 
         # check if Duolingo is currently open
         win_text = GetWindowText(GetForegroundWindow())
         if 'Duolingo' in win_text:
             return False
-        
+
         # check from daily goal
-        daily_xp = self.duolingo_obj.get_daily_xp_progress()
-        return daily_xp['xp_goal'] > daily_xp['xp_today']
+        streak_info = self.duolingo_obj.get_streak_info()
+        return not streak_info['streak_extended_today']
 
     def nag(self):
         return ctypes.windll.user32.MessageBoxW(0, 'Do Your Doulingo!', 'STOOPID!', 0x1000)

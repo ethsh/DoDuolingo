@@ -3,7 +3,7 @@ import duolingo
 from DuolingoNagger import DuolingoNagger, ret_duolingo_obj
 import time
 import argparse
-
+from NaggerService import PythonCornerExample
 
 NAG_INTERVAL_SEC = 10
 
@@ -23,8 +23,10 @@ def get_conf_nagger():
     
 
 if __name__ == "__main__":
-    nagger = get_conf_nagger()
-    while(True):
-        if (nagger.should_nag()):
-            nagger.nag()
-            time.sleep(NAG_INTERVAL_SEC)
+    PythonCornerExample.parse_command_line()
+    
+    #nagger = get_conf_nagger()
+    #while(True):
+    #    if (nagger.should_nag()):
+    #        nagger.nag()
+    #        time.sleep(NAG_INTERVAL_SEC)

@@ -1,2 +1,4 @@
+CD /d %~dp0
+
 call .\venv\Scripts\activate.bat
-call python main.py -n duolingo -u {username_here} -p {password_here}-t 2100
+call python main.py -n duolingo -u %1 -p %2 -t %3

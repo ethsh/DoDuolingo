@@ -1,3 +1,3 @@
-Set WshShell = CreateObject("WScript.Shell") 
-WshShell.Run chr(34) & "run_Service.bat" & Chr(34), 0
-Set WshShell = Nothing
+'This script receives as an argument a command line to run in hidden mode (no cmd popup)
+
+CreateObject("Wscript.Shell").Run "" & WScript.Arguments(0) & "", 0, False

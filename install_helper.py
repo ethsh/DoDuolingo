@@ -14,7 +14,10 @@ OUTPUT_XML_PATH = 'DoDuolingo_task_scheduler.xml'
 def receive_params_from_user():
     username = input("Enter your doulingo username: ") 
     password = input("Enter your doulingo password: ") 
-    time = input("Enter time to start nagging: ") 
+    time = input("Enter time to start nagging (4-digit HHMM): ")
+    while not (len(time) == 4 and time.isdigit()):
+        time = input("Wrong Format. Enter time to start nagging (4-digit HHMM): ")
+    
     return (username, password, time)
 
 def validate_duolingo_authentication(username, password):

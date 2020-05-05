@@ -1,0 +1,9 @@
+# ignore all hidden folders. Exclude gitignore file
+
+.*
+!/.gitignore
+
+
+*.pyc
+venv/
+Logs/

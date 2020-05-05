@@ -1,5 +1,7 @@
 @echo off
+
 REM check for python on machine
+REM TODO: do this.
 
 REM create venv and install packages
 ECHO Creating Python Environment

@@ -1,6 +1,12 @@
 @echo off
 REM check for python on machine
 
+REM create venv and install packages
+ECHO Creating Python Environment
+call python -m venv
+call .\venv\Scripts\activate.bat
+call pip install -r requirements.txt
+
 REM User params
 call python install_helper.py
 
